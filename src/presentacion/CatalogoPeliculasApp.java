@@ -28,7 +28,6 @@ public class CatalogoPeliculasApp {
         }//fin while
     }
 
-
     private static void mostrarMenu(){
         System.out.print("""
                 ****CATALOGO PELICULAS***
