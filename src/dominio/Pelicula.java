@@ -32,13 +32,12 @@ public class Pelicula {
     @Override
     public int hashCode() {
         return Objects.hashCode(nombre);
+        //return nombre != null ? nombre.hashCode() : 0; se lo he visto cambiado
     }
 
     @Override
     public String toString() {
-        return "Pelicula{" +
-                "nombre='" + nombre + '\'' +
-                '}';
+        return this.nombre;
     }
 
     public static void main(String[] args) {

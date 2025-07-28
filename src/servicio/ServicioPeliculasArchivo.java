@@ -55,11 +55,54 @@ public class ServicioPeliculasArchivo implements IServicioPeliculas{
 
     @Override
     public void agregarPelicula(Pelicula pelicula) {
+        boolean anexar = false;
+        var archivo = new File(NOMBRE_ARCHIVO);
+        try {
+            // Revisamos si existe el archivo
+            anexar = archivo.exists();
+            var salida = new PrintWriter(new FileWriter(archivo, anexar));
+            //Agregamos pelicula (toString)
+            salida.println(pelicula);
+            salida.close();
+            System.out.println("Se agrego el archivo: " + pelicula);
+        } catch (Exception e) {
+            System.out.println("Error al agregar pelicula" + e.getMessage());
+        }
 
     }
 
     @Override
     public void buscarPelicula(Pelicula pelicula) {
-
+        var archivo = new File(NOMBRE_ARCHIVO);
+        try{
+            // Abrimos el archivo para lectura linea a linea
+            var entrada = new BufferedReader(new FileReader(archivo));
+            String lineaTexto;
+            lineaTexto = entrada.readLine();
+            var indice = 1;
+            var encontrada = false;
+            var peliculaBuscar = pelicula.getNombre();
+            while (lineaTexto !=null){
+            //Buscamos sin importar mayusculas/minusculas
+                if(peliculaBuscar != null && peliculaBuscar.equalsIgnoreCase(lineaTexto)){
+                    encontrada = true;
+                    break;
+                }
+                //Leemos la siguiente linea antes de la siguiente iteracion
+                lineaTexto = entrada.readLine();
+                indice++;
+            }//fin while
+            //Imprimimos los resultados de la busqueda
+            if(encontrada)
+                System.out.println("Pelicula " + lineaTexto
+                        + "encontrada - linea" + indice);
+            else
+                System.out.println("No se encontro la pelicula: "
+                + pelicula.getNombre());
+            entrada.close();
+        }catch (Exception e){
+            System.out.println("Ocurrio un error al buscar en el archivo:  "
+                    + e.getMessage());
+        }
     }
 }
